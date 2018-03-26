@@ -1,0 +1,65 @@
+# Считываем данные из файла
+dat<-read.table(file="input.txt", sep=",")
+u<-t(dat)
+d<-as.numeric(dat)
+d
+# Считаем среднее значение
+mean(d)
+# Считаем дисперсию
+var(d)
+# Считаем среднее квадратическое отклонение (1 способ)
+sd(d)
+# Считаем среднее квадратическое отклонение (2 способ)
+sqrt(var(d))
+# Первое значение – это мода, а второе – на какой позиции в 
+# вариационном ряду находится мода
+which.max(table(d))
+# Медиана
+median(d)
+# Коэффициент асимметрии
+a<-table(d)
+a
+zn<-sort(unique(d))
+zn
+sr_znach<-mean(d)
+sr_znach
+n<-length(d)
+n
+disp<-var(d)
+disp
+koeff_asimm<-sum((zn-sr_znach)^3*a)/(n*disp^(3/2))
+koeff_asimm
+# Коэффициент эксцесса
+a1<-table(d)
+a1
+zn1<-sort(unique(d))
+zn1
+sr_znach1<-mean(d)
+sr_znach1
+n1<-length(d)
+n1
+disp1<-var(d)
+disp1
+koeff_ex<-(sum((zn-sr_znach)^4*a1)/(n1*disp1^2)) - 3
+koeff_ex
+# усеченное среднее порядка 6/42=0,1
+v<-sort(d)
+v
+szv<-length(v) 
+szv
+s<-0
+for (i in 7:36){ s=s+v[i] }
+s
+a<-(1/(szv-2*6))*s
+a
+# коэффициент вариации
+koeff_var <- 100*sqrt(var(d))/mean(d)
+koeff_var
+# относительное линейное отклонение
+sm<-0
+for (i in 1:42){ sm=sm+abs(v[i]-mean(d))  }
+sm
+sm<-sm/42
+sm
+otn_lin<-100*sm/mean(d)
+otn_lin

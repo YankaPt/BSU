@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1510833592261.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3243654868",
+    "id" : "6CB923BE",
+    "lastKnownWriteTime" : 1511435195,
+    "last_content_update" : 1511435195169,
+    "path" : "~/Documents/R/lab3/lab3.R",
+    "project_path" : "lab3.R",
+    "properties" : {
+        "cursorPosition" : "59,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : true,
+    "source_window" : "",
+    "type" : "r_source"
+}

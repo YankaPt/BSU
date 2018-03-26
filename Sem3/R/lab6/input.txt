@@ -1,0 +1,115 @@
+library(MASS)
+x1<-rnorm(20,mean = 0,sd = 9/3)
+y1<-rnorm(20,0,9/3)
+x2<-rnorm(10,9,9/3)
+y2<-rnorm(10,9,9/3)
+#объединение
+xy<-cbind(c(x1, x2),c(y1, y2))
+xy
+cl<-kmeans(xy,2)
+n<-30
+#количество наблюдений для обучения: 70%
+n.train<-floor(n*0.7)
+#количество наблюдений для тестирования: 30%
+n.test<-n-n.train
+#случайный выбор индексов 
+idx.train<-sample(1:n,n.train)
+#выбрать оставшиеся наблюдения в тестовую выборку
+idx.test<-(1:n)[!(1:n %in% idx.train)]
+#из данных xy выбирает те из них, которые соответствуют случайному выбору индексов
+data.train<-xy[idx.train,] 
+data.test<-xy[idx.test,] 
+cl.cluster<-cl$cluster
+
+# 1
+cl.train<-cl.cluster[idx.train]
+cl.test<-cl.cluster[idx.test]
+model<-qda(data.train, cl.train) 
+cl.test_est<-predict(model, data.test)$class
+sum(cl.test_est!=cl.test)/n.test
+idw<-idx.test[cl.test_est!=cl.test]
+plot(xy, type="n")
+points(xy[idx.train,],pch=24, col=ifelse(cl.train==1,"blue","green")) 
+points(xy[idx.test,],pch=21, col=ifelse(cl.test==1,"blue","green"))
+points(xy[idw,],col="red", pch=1)
+
+# 2
+idd<-sample(1:n.train,n.train * 0.25)
+for(i in idd) {
+  if(cl.train[i]==1) cl.train[i]<-2;
+  if(cl.train[i]==2) cl.train[i]<-1;
+}
+
+
+
+
+
+library(MASS)
+x1<-rnorm(20,mean = 0,sd = 9/3)
+y1<-rnorm(20,0,9/3)
+x2<-rnorm(10,9,9/3)
+y2<-rnorm(10,9,9/3)
+xy<-cbind(c(x1, x2),c(y1, y2))
+xy
+cl<-kmeans(xy,2)
+n<-30
+#количество наблюдений для обучения: 70%
+n.train<-floor(n*0.7)
+#количество наблюдений для тестирования: 30%
+n.test<-n-n.train
+idx.train<-sample(1:n,n.train) #случайный выбор индексов 
+data.train<-xy[idx.train,] #из данных xy выбирает те из них, которые соответствуют случайному выбору индексов
+idx.test<-(1:n)[!(1:n %in% idx.train)] #выбрать оставшиеся наблюдения в тестовую выборку
+data.test<-xy[idx.test,] 
+#data.train – данные тестовой выборки, cl.train – данные об истинной классификации обучающей выборки. 
+#Для получения данных об истинной классификации проведите кластерный анализ исходных данных
+cl.cluster<-cl$cluster
+cl.train<-cl.cluster[idx.train]
+cl.test<-cl.cluster[idx.test]
+mod<-qda(data.train,cl.train) 
+cl.test_est<-predict(mod,data.test)$class
+sum(cl.test_est!=cl.test)/n.test#cl.test_est – данные о классификации тестовой выборки, полученные в результате обучения выборки; cl.test – данные об истинной классификации тестовой выборки, полученной в результате проведения кластерного анализа
+idx<-idx.test[cl.test_est!=cl.test] #выбирает индексы тестовых данных, которые не соответствуют истинной классификации
+sum(cl.test_est!=cl.test)/n.test
+idx<-idx.test[cl.test_est!=cl.test]
+plot(xy, type="n")
+plot(xy[idx.train,],col=ifelse(cl.train==1,"blue","green")
+plot(xy[idx.test,],col=ifelse(cl.test==1,"blue","green")
+#legend("topleft",legend=c("1","2"),fill=c("blue","green"))
+points(xy[idx,],col="red") #красные точки – данные не верно классифицированные в результате дискриминантного анализа
+points(xy[idx.train,],pch=2) #треугольники данные, случайно выбранные для обучающей выборки
+plot(xy, type="n")
+points(xy[idx.train,],pch=24, col=ifelse(cl.train==1,"blue","green")) 
+points(xy[idx.test,],pch=21, col=ifelse(cl.test==1,"blue","green"))
+points(xy[idw,],col="red", pch=1)
+
+points(xy,pch=24, col=ifelse(cl.train==1,"blue","green")) 
+points(xy,pch=21, col=ifelse(cl.test==1,"blue","green"))
+points(xy[idx,],col="red", pch=10)
+
+
+idd<-sample(1:n.train,n.train * 0.2)
+for(i in idd) {
+  if(cl.train[i]==1) cl.train[i]<-2;
+  if(cl.train[i]==2) cl.train[i]<-1;
+}
+
+model<-qda(data.train, cl.train) 
+cl.test_est<-predict(model, data.test)$class
+sum(cl.test_est!=cl.test)/n.test
+idw<-idx.test[cl.test_est!=cl.test]
+plot(xy, type="n")
+points(xy[idx.train,],pch=24, col=ifelse(cl.train==1,"blue","green")) 
+points(xy[idx.test,],pch=21, col=ifelse(cl.test==1,"blue","green"))
+points(xy[idw,],col="red", pch=1)
+
+
+#sum(cl.test_est1!=cl.test)/n.test
+
+#idx1<-idx.test[cl.test_est1!=cl.test]
+#plot(xy,col=ifelse(cl.res==1,"blue","green"))
+#points(xy[idx1,],col="red")#красные точки – данные не верно классифицированные в результате дискриминантного анализа
+#points(xy[idx.train[idx.new],],pch=3) #плюсиками отмечены данные обучающей выборки для которой изменяли значение классов
+
+
+

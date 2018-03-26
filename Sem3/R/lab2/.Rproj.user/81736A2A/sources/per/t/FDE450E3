@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1510832524270.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3192842794",
+    "id" : "FDE450E3",
+    "lastKnownWriteTime" : 1510817836,
+    "last_content_update" : 1510832637409,
+    "path" : "~/Documents/R/lab2/lab2.R",
+    "project_path" : "lab2.R",
+    "properties" : {
+        "cursorPosition" : "40,13",
+        "scrollLine" : "25",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
