@@ -1,45 +1,34 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.awt.*;
 
-public class Task1 extends JFrame {
-    double angle = Math.PI/2;
-    double delta = Math.PI/12;
-    int deltaX=0;
-    int deltaY=0;
-    public Task1() {
-        super("simpleApp");
-        setSize(500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+public class Task1 {
+    private static double clockDegree;
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(Task1::go);
     }
-    @Override
-    public void paint(Graphics g) {
-        Graphics2D gr2d = (Graphics2D) g;
-        gr2d.clearRect(50, 50, 400, 400);
-        gr2d.setPaint(Color.BLUE);
-        gr2d.drawOval(50, 50, 400, 400);
-        gr2d.drawLine(250, 250, 250+deltaX, 250+deltaY);
-        ActionListener actionListener = new ActionListener() {
+    public static void go() {
+        clockDegree = 0;
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setMinimumSize(new Dimension(600, 600));
+        JPanel panel = new JPanel() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                angle +=delta;
-                deltaX = (int)Math.round(200*Math.cos(angle));
-                deltaY = (int)Math.round(200*Math.sin(angle));
-                repaint();
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                int w = this.getWidth(), h = this.getHeight(), xCenter = w / 2, yCenter = h / 2;
+                int radius = Math.min(w, h) / 3, xCorner = xCenter - radius, yCorner = yCenter - radius;
+                double clockAngle = Math.toRadians(clockDegree);
+                g.drawOval(xCorner, yCorner, 2 * radius, 2 * radius);
+                g.drawLine(xCenter, yCenter, (int) (xCenter + radius * Math.cos(clockAngle)), (int) (yCenter + radius * Math.sin(clockAngle)));
             }
         };
-        Timer timer = new Timer(100, actionListener);
+        frame.add(panel);
+        Timer timer = new Timer(10, e -> {
+            clockDegree += 0.06;
+            clockDegree %= 360;
+            panel.repaint();
+        });
         timer.start();
-
-
-    }
-
-    public static void main(String args[]) {
-        Task1 app = new Task1();
-
     }
 }
