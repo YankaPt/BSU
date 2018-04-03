@@ -29,28 +29,24 @@ public class Task2 {
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.LINE_AXIS));
         controlPanel.add(comboBox);
         controlPanel.add(slider);
-        ImageIcon someThingIcon = new ImageIcon("Spiral.png");
-        spiral = someThingIcon.getImage();
-        spiralWidth = someThingIcon.getIconWidth();
-        spiralHeight = someThingIcon.getIconHeight();
+        ImageIcon spiralIcon = new ImageIcon("Spiral.png");
+        spiral = spiralIcon.getImage();
+        spiralWidth = spiralIcon.getIconWidth();
+        spiralHeight = spiralIcon.getIconHeight();
         panel.add(controlPanel, BorderLayout.NORTH);
         JPanel paintPane = new JPanel() {
-            boolean isInit = false;
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 int w = this.getWidth(), h = this.getHeight();
                 int xCenter = w / 2, yCenter = h / 2;
                 int newRadius = Math.min(w, h) / 2;
-                if (!isInit) {
-                    radius = newRadius;
-                    isInit = true;
-                }
+                radius = newRadius;
                 int newScale = Toolkit.getDefaultToolkit().getScreenSize().height / newRadius;
                 double angle = Math.toRadians(degree);
                 boolean isScaleChanged = newScale != scale;
                 if (isScaleChanged) {
-                    speedParam *= (1.0 * radius / newRadius);
+                    speedParam *= (radius / newRadius);
                     scale = newScale;
                     radius = newRadius;
                     spiralWidthScaled = spiralWidth / scale;
@@ -66,7 +62,7 @@ public class Task2 {
                         null);
             }
         };
-        paintPane.setBackground(new Color(0, 0, 0));
+        paintPane.setBackground(Color.GREEN);
         panel.add(paintPane, BorderLayout.CENTER);
         scale = 0;
         direction = 1;
