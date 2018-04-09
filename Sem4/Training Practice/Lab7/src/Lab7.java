@@ -43,8 +43,9 @@ public class Lab7 extends Application implements Observable {
         primaryStage.setTitle("Lab7");
         Scene scene = new Scene(root, 300, 275);
         primaryStage.setScene(scene);
-        scene.setOnKeyTyped(event -> {
-                currentKey = event.getCharacter();
+        scene.setOnKeyReleased(event -> {
+                currentKey = event.getCode().getName();
+
                 notifyObservers();
         });
         //root.getChildren().addAll(new ImageOfKey(this), new LogOfKeys(this));
