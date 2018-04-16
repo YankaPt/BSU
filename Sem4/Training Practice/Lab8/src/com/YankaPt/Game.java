@@ -48,7 +48,7 @@ public class Game extends Application implements Observable {
         primaryStage.setScene(scene);
         setOfHitBlocks = new HashSet<>();
         platform = new Platform();
-        ball = new Ball(300, 400, 2);
+        ball = new Ball(300, 300, 0.5);
         platform.setPositionX(300);
         platform.setLayoutX(platform.getPositionX());
         platform.setLayoutY(550);
@@ -79,18 +79,20 @@ public class Game extends Application implements Observable {
         int i=0;
         timeline = new Timeline (
                 new KeyFrame (
-                        Duration.millis(1000),
+                        Duration.millis(20),
                         e -> {
                             setOfHitBlocks.clear();
                             ball.move();
                             primaryStage.setTitle(""+i);
-                            /*ball.setLayoutX(ball.getX());
-                            ball.setLayoutY(ball.getY());*/
-                            hitCheck();
+                            ball.setLayoutX(ball.getX());
+                            ball.setLayoutY(ball.getY());
+                            ball.hitCheck(scene);
                             notifyObservers();
                         }
                 )
         );
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(1000);
         timeline.play();
         //root.getChildren().addAll(new ImageOfKey(this), new LogOfKeys(this));
         //root.setLeft(new ImageOfKey(this));
@@ -102,7 +104,7 @@ public class Game extends Application implements Observable {
         switch (quarter) {
             case 0: {
                 //check
-                //setOfHitBlocks.add(brickHaskCode);
+                //setOfHitBlocks.add(brickHashCode);
                 break;
             }
             case 1: {
