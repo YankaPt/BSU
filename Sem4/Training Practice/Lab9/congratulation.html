@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<style>
+	body {
+  background: url(maxresdefault.jpg);
+    color: #fff;
+   }
+   </style>
+   <script type='text/javascript'>
+window.onload=function(){
+var image = document.getElementById("test");
+var i = 0, s = ["block","none"],t = [2000,9000]; //2 сек есть картинка, 5 сек нет
+function show()
+{  i ^= 1
+   image.style.display = s[i];
+    setTimeout(show,t[i]);
+}
+show()
+}
+</script>
+    <title>Document</title>
+</head>
+
+<body style="background-color:#D3D3D3">
+    <a href="/home/jan/BSU/Sem4/Training Practice/Lab9/new.html">Back</a>
+    <img id="test"  src="/home/jan/BSU/Sem4/Training Practice/Lab9/1.png">
+    <audio src="1.mp3" autoplay>
+        <code>audio</code> элемент.
+    </audio>
+</body>
+</html>
