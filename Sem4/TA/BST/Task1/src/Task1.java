@@ -7,8 +7,11 @@ import java.util.ArrayList;
 /**
  * Created by jan on 8.2.18.
  */
-public class Task1 {
+public class Task1 implements Runnable {
     public static void main(String[] args) {
+        new Thread(null, new Task1(), "", 64 * 1024 * 1024).start();
+    }
+    public void run() {
         ArrayList<Long> arrayList = new ArrayList<>();
         Node node = null;
         try {
