@@ -12,6 +12,7 @@ public class Ball extends Label {
     private double r = imageView.getFitHeight();
     private double angle;
     private double velocity = 15.0;
+    private final double ELASTICITY = 0.97;
 
     public Ball(double x, double y, double angle) {
         super();
@@ -47,29 +48,31 @@ public class Ball extends Label {
         switch (quarter) {
             case 0: {
                 if(x+2*r>=520)
-                    angle = Math.PI - angle;
+                    angle = (Math.PI - angle)/ELASTICITY;
                 else if(y-2*r<=0)
-                    angle = 2*Math.PI-angle;
+                    angle = (2*Math.PI-angle)*ELASTICITY;
                 //setOfHitBlocks.add(brickHashCode);
                 break;
             }
             case 1: {
                 if(x-2*r<=20)
-                    angle = Math.PI - angle;
+                    angle = (Math.PI - angle)*ELASTICITY;
                 else if(y-2*r<=0)
-                    angle = Math.PI*2 - angle;
+                    angle = (Math.PI*2 - angle)/ELASTICITY;
                 break;
             }
             case 2: {
                 if(x-2*r<=20)
-                    angle = 2*Math.PI - angle;
+                    angle = (3*Math.PI - angle)*ELASTICITY;
                 else if(y+2*r>=520)
-                    angle = Math.PI*3/2 - angle;
+                    angle = Math.PI*2 - angle;
                 break;
             }
             case 3: {
                 if(x+2*r>=520)
-                    angle = -angle+3*Math.PI;
+                    angle = (-angle+3*Math.PI)/ELASTICITY;
+                else if(y+2*r>=520)
+                    angle = Math.PI*2 - angle;
                 break;
             }
             default: break;

@@ -92,7 +92,7 @@ public class Game extends Application implements Observable {
                 )
         );
         timeline.setAutoReverse(true);
-        timeline.setCycleCount(1000);
+        timeline.setCycleCount(10000);
         timeline.play();
         //root.getChildren().addAll(new ImageOfKey(this), new LogOfKeys(this));
         //root.setLeft(new ImageOfKey(this));
