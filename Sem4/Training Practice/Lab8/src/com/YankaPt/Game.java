@@ -3,15 +3,23 @@ package com.YankaPt;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 public class Game extends Application implements Observable {
     public static void main(String[] args) {
@@ -19,7 +27,7 @@ public class Game extends Application implements Observable {
     }
 
     private List<Observer> observerList = new ArrayList<>();
-    private Set<Integer> setOfHitBlocks;
+    private Set<Brick> setOfHitBlocks;
     private Timeline timeline;
     private Ball ball;
     private Platform platform;
@@ -44,30 +52,44 @@ public class Game extends Application implements Observable {
     public void start(Stage primaryStage) {
         Pane root = new Pane();
         primaryStage.setTitle("Lab8");
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 1400, 900);
+        Label background = new Label();
+        background.setGraphic(new ImageView("background.jpg"));
         primaryStage.setScene(scene);
         setOfHitBlocks = new HashSet<>();
         platform = new Platform();
-        ball = new Ball(300, 300, 0.5);
+        ball = new Ball(600, 820, Math.PI*0.8);
         platform.setPositionX(300);
         platform.setLayoutX(platform.getPositionX());
-        platform.setLayoutY(550);
+        platform.setLayoutY(840-platform.getHeight());
         ball.setLayoutX(ball.getX());
         ball.setLayoutY(ball.getY());
-        List<Brick> bricks = new ArrayList<>();
-        bricks.add(new Brick(this,1));
-        double row=0;
-        double column=0;
-        for(Brick b: bricks)
-        {
-            b.setLayoutX(row+=40);
-            b.setLayoutY(column+=20);
+        root.getChildren().addAll(background,platform, ball);
+        double row=20;
+        double column=40;
+        int l = 25;
+        for(int i=0; i<l; i++) {
+            Brick b = new Brick(this,1);
+            b.setLayoutX(row+=b.width);
+            b.setLayoutY(column);
             root.getChildren().add(b);
-            observerList.add(b);
-
         }
-        bricks = null;
-        root.getChildren().addAll(platform, ball);
+        row =20;
+        column = 80;
+        for(int i=0; i<l; i++) {
+            Brick b = new Brick(this,2);
+            b.setLayoutX(row+=b.width);
+            b.setLayoutY(column);
+            root.getChildren().add(b);
+        }
+        row =20;
+        column = 120;
+        for(int i=0; i<l; i++) {
+            Brick b = new Brick(this,1);
+            b.setLayoutX(row+=b.width);
+            b.setLayoutY(column);
+            root.getChildren().add(b);
+        }
         primaryStage.show();
         scene.setOnKeyPressed(event -> {
             if(event.getCode().getName().equals("Left"))
@@ -76,51 +98,55 @@ public class Game extends Application implements Observable {
                 platform.positionX+=20;
             platform.setLayoutX(platform.getPositionX());
         });
-        int i=0;
+        new JFXPanel();
+        String bip = "/home/jan/BSU/Sem4/Training Practice/Lab8/src/music.mp3";
+        Media hit = new Media(new File(bip).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.play();
         timeline = new Timeline (
                 new KeyFrame (
-                        Duration.millis(20),
+                        Duration.millis(5),
                         e -> {
+                            mediaPlayer.play();
+                            if(observerList.isEmpty()) {
+                                timeline.stop();
+                                primaryStage.setTitle("Victory!");
+                                return;
+                            }
                             setOfHitBlocks.clear();
                             ball.move();
-                            primaryStage.setTitle(""+i);
                             ball.setLayoutX(ball.getX());
                             ball.setLayoutY(ball.getY());
-                            ball.hitCheck(scene);
+                            primaryStage.setTitle("Balls: "+lives);
+                            setOfHitBlocks.add(ball.hitCheck(scene, platform));
+                            if(!ball.isActive()) {
+                                timeline.pause();
+                                lives--;
+                                primaryStage.setTitle("Balls: "+lives);
+                                root.getChildren().remove(ball);
+                                if(lives==0) {
+                                    timeline.stop();
+                                    primaryStage.setTitle("Defeat");
+                                    return;
+                                }
+                                ball = new Ball(600, 820, Math.PI*0.8);
+                                ball.setLayoutX(ball.getX());
+                                ball.setLayoutY(ball.getY());
+                                root.getChildren().add(ball);
+                                scene.setOnMouseClicked(event -> {
+                                    timeline.play();
+                                });
+                            }
                             notifyObservers();
+                            for(Brick b: setOfHitBlocks) {
+                                if(!observerList.contains(b))
+                                    root.getChildren().remove(b);
+                            }
                         }
                 )
         );
         timeline.setAutoReverse(true);
-        timeline.setCycleCount(10000);
+        timeline.setCycleCount(Integer.MAX_VALUE);
         timeline.play();
-        //root.getChildren().addAll(new ImageOfKey(this), new LogOfKeys(this));
-        //root.setLeft(new ImageOfKey(this));
-        //root.setRight(new LogOfKeys(this));
-
-    }
-    private void hitCheck() {
-        int quarter = (int)Math.round(ball.getAngle()/Math.PI*4);
-        switch (quarter) {
-            case 0: {
-                //check
-                //setOfHitBlocks.add(brickHashCode);
-                break;
-            }
-            case 1: {
-                break;
-            }
-            case 2: {
-                break;
-            }
-            case 3: {
-                if(false) {
-                    lives--;
-                    ball = new Ball(300, 400, 2);
-                }
-                break;
-            }
-            default: break;
-        }
     }
 }

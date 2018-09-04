@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Task C</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div style="margin: 0 auto; width: 1200px; text-align: center;">
+			<a style="display: inline-block; width: 50px; height: 50px;" href="a.html" id="task-a-link"></a>
+			<a style="display: inline-block; width: 50px; height: 50px;" href="b.html" id="task-b-link"></a>
+			<a style="display: inline-block; width: 50px; height: 50px;" href="c.html" id="task-c-link"></a>
+		</div>
+		<div style="margin: 0 auto; width: 1200px; text-align: center;">
+			<img src="res/map.jpg" width="1050" height="936" alt="The Republic of Belarus" usemap="#Map"/>
+			<p>
+				<map id="Map" name="Map">
+					<area shape="poly" coords="643,439,640,300,483,294,433,240,345,246,384,303,328,380,370,495,361,590,440,670,556,645,547,480,600,473" href="https://en.wikipedia.org/wiki/Minsk_Region" alt="Minsk region"/>
+					<area shape="poly" coords="510,55,770,124,800,320,640,350,640,300,483,294,433,240,345,246,425,104" href="https://en.wikipedia.org/wiki/Vitebsk_Region" alt="Vitebsk region"/>
+					<area shape="poly" coords="370,515,330,395,385,320,337,260,283,376,96,434,126,623,256,614,298,523" href="https://en.wikipedia.org/wiki/Grodno_Region" alt="Grodno region"/>
+					<area shape="poly" coords="126,623,256,614,298,523,370,515,463,817,80,812,50,705" href="https://en.wikipedia.org/wiki/Brest_Region" alt="Brest region"/>
+					<area shape="poly" coords="438,691,786,527,889,722,775,854,468,811," href="https://en.wikipedia.org/wiki/Gomel_Region" alt="Gomel region"/>
+					<area shape="poly" coords="558,635,547,500,600,493,643,449,640,377,798,337,966,511,907,577,681,525" href="https://en.wikipedia.org/wiki/Mogilev_Region" alt="Mogilev region"/>
+				</map>
+			</p>
+		</div>
+		<script>
+			var array = [$('#task-a-link'), $('#task-b-link'), $('#task-c-link')];
+			$(document).ready(function(){
+				array.forEach(function(element){
+					element.css('background-image', 'url(res/red_circle.png)');
+				});
+			});
+			array.forEach(function(element){
+				element.hover(function(){
+					$(this).css('background-image', 'url(res/green_circle.png)');
+				}, function(){
+					$(this).css('background-image', 'url(res/red_circle.png)');
+				});
+			});
+		</script>
+	</body>
+</html>

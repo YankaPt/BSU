@@ -5,16 +5,16 @@ import javafx.scene.image.ImageView;
 
 
 public class Platform extends Label {
-    private ImageView imageView = new ImageView("flag_ireland.png");
-    private double width = 60;
-    private double height = 20;
+    private ImageView imageView = new ImageView("platform1.png");
+    public double width;
+    private double height;
     double positionX;
 
     public Platform() {
         super();
-        super.setWidth(width);
-        super.setHeight(height);
         setGraphic(imageView);
+        width = imageView.getImage().getWidth();
+        height = imageView.getImage().getHeight();
     }
 
     public double getPositionX() {
@@ -24,4 +24,5 @@ public class Platform extends Label {
     public void setPositionX(double positionX) {
         this.positionX = positionX;
     }
+
 }

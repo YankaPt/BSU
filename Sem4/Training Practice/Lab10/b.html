@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Task B</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<style>
+			/*.table-striped>tbody>tr:nth-child(even) {
+				background-color: #FF00FF;
+			}
+			.table-striped>tbody>tr:nth-child(odd) {
+				background-color: #00FF00;
+			}*/
+			table.table, table.table th, table.table td {
+			   border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="margin: 0 auto; width: 1200px; text-align: center;">
+			<a style="display: inline-block; width: 50px; height: 50px;" href="a.html" id="task-a-link"></a>
+			<a style="display: inline-block; width: 50px; height: 50px;" href="b.html" id="task-b-link"></a>
+			<a style="display: inline-block; width: 50px; height: 50px;" href="c.html" id="task-c-link"></a>
+		</div>
+		<div style="margin: 0 auto; width: 1200px;">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>Svetlana</th>
+						<th>Lapitskaya</th>
+					</tr>
+					<tr>
+						<th>Anton</th>
+						<th>Lugovoi</th>
+					</tr>
+					<tr>
+						<th>Andrei</th>
+						<th>Naumovich</th>
+					</tr>
+					<tr>
+						<th>Jan</th>
+						<th>Piatkevich</th>
+					</tr>
+					<tr>
+						<th>Elena</th>
+						<th>Petrovich</th>
+					</tr>
+					<tr>
+						<th>Arina</th>
+						<th>Pinchuk</th>
+					</tr>
+					<tr>
+						<th>Evgenia</th>
+						<th>Polochanina</th>
+					</tr>
+					<tr>
+						<th>Egor</th>
+						<th>Poryadin</th>
+					</tr>
+					<tr>
+						<th>Olga</th>
+						<th>Rabchun</th>
+					</tr>
+					<tr>
+						<th>Vladislav</th>
+						<th>Reentovich</th>
+					</tr>
+					<tr>
+						<th>Sergei</th>
+						<th>Rubaha</th>
+					</tr>
+					<tr>
+						<th>Svetlana</th>
+						<th>Shaban</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<script>
+			var array = [$('#task-a-link'), $('#task-b-link'), $('#task-c-link')];
+			$(document).ready(function(){
+				array.forEach(function(element){
+					element.css('background-image', 'url(res/red_circle.png)');
+				});
+			});
+			array.forEach(function(element){
+				element.hover(function(){
+					$(this).css('background-image', 'url(res/green_circle.png)');
+				}, function(){
+					$(this).css('background-image', 'url(res/red_circle.png)');
+				});
+			});
+		</script>
+	</body>
+</html>

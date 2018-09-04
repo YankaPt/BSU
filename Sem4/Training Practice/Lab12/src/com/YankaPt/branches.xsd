@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:simpleType name="stringType">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+
+   <xs:simpleType name="intType">
+      <xs:restriction base="xs:positiveInteger"/>
+   </xs:simpleType>
+
+   <xs:simpleType name="decType">
+      <xs:restriction base="xs:decimal"/>
+   </xs:simpleType>
+
+   <xs:simpleType name="leafColorType">
+      <xs:restriction base="xs:string">
+        <xs:pattern value="green|red|yellow"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="treeColorType">
+      <xs:restriction base="xs:string">
+        <xs:pattern value="green|brown|black|white|gray"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="idType">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]*"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:complexType name="leafType">
+      <xs:sequence>
+         <xs:element name="quantity" type="intType"/>
+         <xs:element name="leafColor" type="leafColorType"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="branchType">
+      <xs:sequence>
+         <xs:element name="leaf" maxOccurs="unbounded" type="leafType"/>
+      </xs:sequence>
+      <xs:attribute name="branchid" type="idType" use="required"/>
+      <xs:attribute name="color" type="treeColorType" use="required"/>
+      <xs:attribute name="tree" type="stringType" use="required"/>
+   </xs:complexType>
+
+   <xs:element name="branch" type="branchType"/>
+</xs:schema>

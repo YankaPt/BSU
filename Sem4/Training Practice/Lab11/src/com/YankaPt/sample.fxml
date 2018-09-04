@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.YankaPt.Controller">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="250.0" style="-fx-background-color: #e027af;">
+            <children>
+                <VBox layoutX="18.0" layoutY="26.0" prefHeight="135.0" prefWidth="191.0" spacing="5.0" style="-fx-border-width: 1; -fx-border-insets: 2; -fx-border-style: dashed; -fx-border-color: gray; -fx-border-radius: 3 3 5 5;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="3.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#open" prefHeight="25.0" prefWidth="150.0" text="Open" />
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="150.0" text="Save" />
+                        <RadioButton fx:id="rbDOM" mnemonicParsing="false" onAction="#toggleSave" selected="true" text="DOM">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="parserType" />
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="rbBinary" mnemonicParsing="false" onAction="#toggleSave" text="Serialized" toggleGroup="$parserType" />
+                        <RadioButton fx:id="rbSAX" mnemonicParsing="false" onAction="#toggleSave" text="SAX" toggleGroup="$parserType" />
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </VBox>
+                <TitledPane layoutY="199.0" prefHeight="254.0" prefWidth="183.0" text="Attributes" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <content>
+                        <VBox prefHeight="225.0" prefWidth="185.0" style="-fx-background-color: #00ff00;">
+                            <children>
+                                <Label text="ID" />
+                                <TextField fx:id="tfID" onAction="#setID" />
+                                <Label text="Color" />
+                                <TextField fx:id="tfColor" onAction="#setColor" />
+                                <Label text="Tree" />
+                                <TextField fx:id="tfTree" onAction="#setTree" />
+                            </children>
+                        </VBox>
+                    </content>
+                </TitledPane>
+            </children></AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="250.0">
+            <children>
+                <ToolBar prefHeight="40.0" prefWidth="240.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <Button mnemonicParsing="false" onAction="#add" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#remove" text="Remove" />
+                    </items>
+                </ToolBar>
+                <TitledPane collapsible="false" layoutY="40.0" prefHeight="355.0" prefWidth="250.0" text="Leafs">
+                    <content>
+                        <TableView fx:id="tableView" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #47dfde;">
+                            <columns>
+                                <TableColumn fx:id="leafColorColumn" prefWidth="165.0" style="-fx-background-color: #47dfde;" text="Color" />
+                                <TableColumn fx:id="quantityColumn" prefWidth="74.0" style="-fx-background-color: #47dfde;" text="Quantity" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </TitledPane>
+            </children></AnchorPane>
+    </items>
+</SplitPane>

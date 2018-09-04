@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Task A</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body style="background-color: #ff00ff;">
+		<div style="margin: 0 auto; width: 1200px; text-align: center;">
+			<a style="display: inline-block; width: 50px; height: 50px;" href="a.html" id="task-a-link"></a>
+			<a style="display: inline-block; width: 50px; height: 50px;" href="b.html" id="task-b-link"></a>
+			<a style="display: inline-block; width: 50px; height: 50px;" href="c.html" id="task-c-link"></a>
+		</div>
+		<div style="margin: 0 auto; width: 1200px;">
+			<div style="float: left;">
+				<form>
+					<input style="background-color: #00ff00; color: #91af00;" type="text" name="First Name" placeholder="First Name"/> <br/><br/>
+					<input style="background-color: #00ff00; color: #91af00;" type="text" name="Last Name" placeholder="Last Name"/> <br/><br/>
+					<label>Department:
+						<select name="options">
+							<option selected>MSS</option>
+							<option>DMA</option>
+							<option>BMI</option>
+							<option>ISU</option>
+							<option>KTS</option>
+						</select>
+					</label> <br/><br/>
+					<label><input style="background-color: #00ff00; color: #00ff00;" type="radio" name="additional course" value="subject1" checked/> subject1</label>
+					<label><input style="background-color: #00ff00; color: #00ff00;" type="radio" name="additional course" value="subject2"/> subject2</label> <br/><br/>
+					Do you like this form?: <br/>
+					<label><input style="background-color: #00ff00;" type="checkbox" name="interests" value="0"/>yes</label>
+					<label><input style="background-color: #00ff00;" type="checkbox" name="interests" value="-1"/>yes, of course</label>
+					<br/><br/>
+					<label>Choose an image: <br/><input type='file' onchange="readURL(this);" accept=".jpg, .jpeg, .png" name="imageName"/></label><br/><br/>
+					<button type="submit"><img src="res/green_circle.png"></button>
+					<button type="reset" onclick="resetImage()"><img src="res/red_circle.png"/></button>
+				</form>
+			</div>
+			<div style="float:right">
+				<img src="res/no_image.png" width="200px" height="200px" id="image"/>
+			</div>
+		</div>
+		<script>
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+
+					reader.onload = function (e) {
+						$('#image').attr('src', e.target.result);
+					};
+
+					reader.readAsDataURL(input.files[0]);
+				} else {
+					$('#image').attr('src', 'res/no_image.png');
+				}
+			}
+			function resetImage() {
+				$('#image').attr('src', 'res/no_image.png');
+			}
+		</script>
+		<script>
+			var array = [$('#task-a-link'), $('#task-b-link'), $('#task-c-link')];
+			$(document).ready(function(){
+				array.forEach(function(element){
+					element.css('background-image', 'url(res/red_circle.png)');
+				});
+			});
+			array.forEach(function(element){
+				element.hover(function(){
+					$(this).css('background-image', 'url(res/green_circle.png)');
+				}, function(){
+					$(this).css('background-image', 'url(res/red_circle.png)');
+				});
+			});
+		</script>
+	</body>
+</html>
