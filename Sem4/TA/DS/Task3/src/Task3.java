@@ -7,7 +7,8 @@ import java.util.Queue;
 
 public class Task3 {
     public static void main(String[] args) {
-        int n=0, m=0, i0=0, j0=0, v=0;
+        int n=0, m=0, i0=0, j0=0;
+        long v=0;
         String[] form = null;
         try {
             FileReader fileReader = new FileReader("in.txt");
@@ -30,7 +31,8 @@ public class Task3 {
         } catch(Exception ex) {ex.printStackTrace();}
     }
 
-    public static int getWaterResidue(int m, int n, int i0, int j0, int v, String[] form) {
+
+    public static long getWaterResidue(int m, int n, int i0, int j0, long v, String[] form) {
         i0--;
         j0--;
         int maxHeight = 0;
@@ -46,7 +48,7 @@ public class Task3 {
                 elements[i][j] = new MyElement(currentHeight, currentHeight, i, j);
                 if (maxHeight < currentHeight)
                     maxHeight = currentHeight;
-                if (i == 0 || i == m-1 || j == 0 || j == n-1)
+                if (i == 0 ^ i == m-1 ^ j == 0 ^ j == n-1)
                     heap.add(elements[i][j]);
             }
         }
@@ -77,10 +79,6 @@ public class Task3 {
                         heap.add(adjacentElement);
                     }
                 } else {
-                    /*if(currentElement.y==m | currentElement.x==0) {
-                        System.out.print(currentElement.x + " " + currentElement.y+ " " + currentElement.height);
-                        return currentElement.height; //delete this after debug
-                    }*/
                     adjacentElement = elements[currentElement.x+1][currentElement.y];
                     adjacentElement1 = elements[currentElement.x-1][currentElement.y];
                     adjacentElement2 = elements[currentElement.x][currentElement.y+1];
@@ -109,10 +107,10 @@ public class Task3 {
             for (MyElement j: i)
                 j.reverseBlock();
 
-        int waterResidue = 0;
+
+        long waterResidue = 0;
         Queue<MyElement> queue = new ArrayDeque<>();
         queue.add(elements[i0][j0]);
-        //System.out.println(elements[i0][j0].waterline);
         while (!queue.isEmpty()) {
             currentElement = queue.poll();
             if (!currentElement.isBlocked) {
@@ -137,7 +135,6 @@ public class Task3 {
                 currentElement.reverseBlock();
             }
         }
-        //System.out.println(waterResidue);
         return Math.min(waterResidue, v);
     }
 }
@@ -162,7 +159,7 @@ class MyElement implements Comparable<MyElement> {
     }
 
     public int compareTo(MyElement secondElement) {
-        return Integer.compare(this.height, secondElement.height);
+        return Integer.compare(this.waterline, secondElement.waterline);
 
     }
 }
