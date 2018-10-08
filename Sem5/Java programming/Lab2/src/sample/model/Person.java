@@ -1,9 +1,10 @@
 package sample.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Person implements Comparable<Person>{
+public class Person implements Comparable<Person>, Serializable{
     private String name;
     private Set<String> qualities;
     private Set<String> demands;
