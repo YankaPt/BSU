@@ -18,7 +18,7 @@ public class HyphenationTestDrive {
         try {
             FileReader fileReader = new FileReader("test.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = bufferedReader.readLine();;
+            String line = bufferedReader.readLine();
             while (line != null) {
                 data.append(line);
                 line = bufferedReader.readLine();

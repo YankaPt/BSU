@@ -1,6 +1,6 @@
 package sample;
 
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -10,9 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -37,6 +35,11 @@ public class Controller {
             text = text.replaceAll(pair.initialWord, pair.replaceWord);
         }
         mainTextArea.setText(text);
+        try (FileWriter fileWriter = new FileWriter("result.txt")) {
+            fileWriter.write(text);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         fileMenu.getItems().get(1).setDisable(false);
         replacementsList.getItems().clear();
         set.clear();
@@ -80,7 +83,7 @@ public class Controller {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line = bufferedReader.readLine();;
             while (line != null) {
-                data.append(line);
+                data.append(line + "\n");
                 line = bufferedReader.readLine();
             }
         } catch (IOException ex) {
@@ -99,6 +102,6 @@ public class Controller {
         replacementsList.getItems().addAll(set);
     }
     @FXML private void close() {
-        System.exit(0);
+        Platform.exit();
     }
 }
