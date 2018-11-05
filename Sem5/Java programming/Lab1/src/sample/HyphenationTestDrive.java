@@ -35,7 +35,7 @@ public class HyphenationTestDrive {
         }
 
         for (WordPair pair : list) {
-            text =text.replaceAll(pair.initialWord, pair.replaceWord);
+            text = text.replaceAll(pair.initialWord, pair.replaceWord);
         }
         System.out.println(text);
     }

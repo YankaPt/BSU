@@ -18,7 +18,7 @@ public class Controller {
     private FileChooser fileChooser;
     private HyphenationChecker hyphenationChecker;
     private String text;
-    private Set<WordPair> set;
+    private Set<WordPair> wordPairSet;
     @FXML private Pane rootPane;
     @FXML private Menu fileMenu;
     @FXML private TextArea mainTextArea;
@@ -31,7 +31,7 @@ public class Controller {
     }
 
     @FXML private void fix() {
-        for (WordPair pair : set) {
+        for (WordPair pair : wordPairSet) {
             text = text.replaceAll(pair.initialWord, pair.replaceWord);
         }
         mainTextArea.setText(text);
@@ -42,7 +42,7 @@ public class Controller {
         }
         fileMenu.getItems().get(1).setDisable(false);
         replacementsList.getItems().clear();
-        set.clear();
+        wordPairSet.clear();
     }
 
     @FXML private void openHyphenFile() {
@@ -92,14 +92,14 @@ public class Controller {
         text = data.toString();
         mainTextArea.setText(text);
         String[] words = text.split(" ");
-        set = new HashSet<>();
+        wordPairSet = new HashSet<>();
         for (String word : words) {
             WordPair pair = hyphenationChecker.checkWordHyphen(word);
             if (!pair.initialWord.equals(pair.replaceWord)) {
-                set.add(pair);
+                wordPairSet.add(pair);
             }
         }
-        replacementsList.getItems().addAll(set);
+        replacementsList.getItems().addAll(wordPairSet);
     }
     @FXML private void close() {
         Platform.exit();
