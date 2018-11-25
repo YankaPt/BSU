@@ -1,0 +1,8 @@
+time for inverse: 26
+conditionNumber: 8979.246928735822
+time for Gauss: 24
+norm for Gauss: 1.1290968160437842E-13
+time for LUP decomposition: 25
+time for solve LUx = Pb: 3
+norm for LUP: 9.192646643896296E-14
+time for QR: 783
