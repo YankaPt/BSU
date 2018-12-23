@@ -25,6 +25,13 @@ public class Person implements Comparable<Person>, Serializable{
         maxRespect = 0;
     }
 
+    public Person(Person person) {
+        this.setName(person.name);
+        this.setQualities(person.getQualities());
+        this.setDemands(person.getDemands());
+        this.personRespects = new HashSet<>();
+    }
+
     public String getName() {
         return name;
     }

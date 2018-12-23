@@ -5,7 +5,7 @@ import java.util.List;
 public class RelationsBuilder {
     public static void buildRelationsWithAll(List<Person> people) {
         for (int i = 0; i < people.size(); i++) {
-            for (int j = i; j < people.size(); j++) {
+            for (int j = i+1; j < people.size(); j++) {
                 buildRelationsWithTwo(people.get(i), people.get(j));
             }
         }
