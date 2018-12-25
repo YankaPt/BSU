@@ -4,12 +4,10 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SimpleServer {
     private static ServerSocket serverSocket;
     private static String messageHistory="";
-    private static int numberOfHandlers = 0;
     private static ArrayList<EchoClientHandler> handlers;
 
     public static void main(String[] args) throws IOException {
@@ -48,17 +46,23 @@ public class SimpleServer {
             try {
                 System.out.println("hi");
                 String inputLine;
-                while ((inputLine = in.readUTF()) != null) {
-                    messageHistory = messageHistory.concat(inputLine+"\n");
-                    sendMessages();
-                    System.out.println(inputLine);
-                    if (".".equals(inputLine)) {
-                        out.writeUTF("bye");
-                        break;
+                String login = in.readUTF();
+                String password = in.readUTF();
+                if (login.equals("user1") || login.equals("user2")) {
+                    out.writeUTF("Good");
+                    while ((inputLine = in.readUTF()) != null) {
+                        messageHistory = messageHistory.concat(login + ": " + inputLine + "\n");
+                        sendMessages();
+                        System.out.println(inputLine);
+                        if (".".equals(inputLine)) {
+                            out.writeUTF("bye");
+                            break;
+                        }
                     }
+                    System.out.println("It is over");
+                } else {
+                    out.writeUTF("authentication error");
                 }
-                System.out.println("It is over");
-
                 in.close();
                 out.close();
                 clientSocket.close();
