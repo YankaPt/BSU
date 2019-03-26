@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <center>
+        <VBox alignment="CENTER" prefHeight="393.0" prefWidth="300.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="trait 1:" />
+            <TextField fx:id="firstTrait" />
+            <Label text="trait 2:" />
+            <TextField fx:id="secondTrait" />
+            <Button mnemonicParsing="false" onAction="#findIdealPersons" text="Find ideal persons" />
+            <Label text="Person's id" />
+            <TextField fx:id="idTextField" />
+            <FlowPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#findPerson" text="Find person" />
+                  <Button mnemonicParsing="false" onAction="#deletePerson" text="Delete person" />
+               </children>
+            </FlowPane>
+            <FlowPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="nameField" prefHeight="25.0" prefWidth="102.0" promptText="Name" />
+                  <TextField fx:id="surnameField" prefHeight="25.0" prefWidth="95.0" promptText="Surname" />
+                  <TextField fx:id="bioField" prefHeight="25.0" prefWidth="87.0" promptText="Bio" />
+               </children>
+            </FlowPane>
+            <Button mnemonicParsing="false" onAction="#addPerson" text="Add person" />
+         </children>
+        </VBox>
+    </center>
+    <top>
+    </top>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+              <ListView fx:id="idealList" minWidth="287.0" prefHeight="259.0" prefWidth="287.0" />
+            <TableView fx:id="personTable" prefHeight="323.0" prefWidth="287.0" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
