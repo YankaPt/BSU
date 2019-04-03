@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -8,6 +9,8 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.EventListener;
 
 public class Lab8 extends JFrame {
     private class PaintLabel extends JLabel{
@@ -18,7 +21,7 @@ public class Lab8 extends JFrame {
         }
     }
 
-    private JPanel drawPanel;
+    private MyComponent drawPanel;
     private JScrollPane scrollPane;
     private PaintLabel label;
     private Graphics2D graphics;
@@ -39,6 +42,8 @@ public class Lab8 extends JFrame {
     private ButtonGroup buttonGroup;
     private Color color;
 
+    private JLabel coorLabel;
+
     public Lab8() {
         super("Paint");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,7 +57,7 @@ public class Lab8 extends JFrame {
         initialPoint = new Point();
         finalPoint = new Point();
 
-        drawPanel = new JPanel(new BorderLayout());
+        drawPanel = new MyComponent(new BorderLayout());
         drawPanel.setPreferredSize(new Dimension(1000, 1000));
         graphics = image.createGraphics();
         graphics.setColor(new Color(255, 255, 255));
@@ -65,6 +70,9 @@ public class Lab8 extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.add(scrollPane, BorderLayout.CENTER);
         drawPanel.add(label, BorderLayout.CENTER);
+
+        coorLabel = new JLabel();
+        this.add(coorLabel, BorderLayout.SOUTH);
 
         open = new JButton("Open");
         withBackground = new JRadioButton("With background");
@@ -98,43 +106,33 @@ public class Lab8 extends JFrame {
         green.addActionListener(e -> color = new Color(0, 255, 0));
         blue.addActionListener(e -> color = new Color(0, 0, 255));
 
-        drawPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                initialPoint = e.getPoint();
-                finalPoint = e.getPoint();
-                updateImage();
-            }
-        });
-
-        drawPanel.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                finalPoint = e.getPoint();
-                updateImage();
-            }
-        });
-        open.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                if (fileChooser.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                        initialImage = ImageIO.read(file);
-                        ImageIcon imageIcon = new ImageIcon(image);
-                        Graphics2D g = (Graphics2D)label.getGraphics();
-                        label.setIcon(imageIcon);
-                    } catch (FileNotFoundException ex) {
-                        JOptionPane.showMessageDialog(null, "File not found");
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Opening error");
-                    }
+        drawPanel.addMyListener(event -> coorLabel.setText("x: "+ event.getPoint().x + "y: " + event.getPoint().y));
+        drawPanel.addMyListener(event -> paintPoint(event.getPoint()));
+        open.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            if (fileChooser.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                    initialImage = ImageIO.read(file);
+                    ImageIcon imageIcon = new ImageIcon(image);
+                    Graphics2D g = (Graphics2D)label.getGraphics();
+                    updateImage();
+                    label.setIcon(imageIcon);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "File not found");
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Opening error");
                 }
             }
         });
+    }
+
+    public void paintPoint(Point point) {
+        Graphics g = image.createGraphics();
+        Color randColor = new Color((int)(Math.random()*256), (int)(Math.random()*256), (int)(Math.random()*256));
+        g.setColor(randColor);
+        g.drawRect(point.x, point.y, 10, 10);
+        repaint();
     }
 
     public void updateImage(){
@@ -185,4 +183,63 @@ public class Lab8 extends JFrame {
             }
         }
     }
+}
+class MyComponent extends JPanel {
+    private ArrayList<MyEventListener> listenerList = new ArrayList<>();
+
+    MyComponent(BorderLayout borderLayout) {
+        super(borderLayout);
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if ((e.getModifiersEx()==0 || e.getModifiersEx()==256) && e.getButton()==MouseEvent.BUTTON1) {
+                    for (MyEventListener listener : listenerList) {
+                        listener.actionPerformed(e);
+                    }
+                }
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+    }
+
+    void addMyListener(MyEventListener myEventListener) {
+        //rwww.win2.cn/g9
+        // enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+        listenerList.add(myEventListener);
+    }
+
+    /*@Override
+    protected void processEvent(AWTEvent e) {
+        if (e instanceof MouseEvent && (((MouseEvent) e).getModifiersEx()==0 || ((MouseEvent) e).getModifiersEx()==256)) {
+            if (((MouseEvent) e).getButton()==MouseEvent.BUTTON1)
+            for (MyEventListener listener : listenerList) {
+                listener.actionPerformed((MouseEvent) e);
+            }
+        }
+        super.processEvent(e);
+    }*/
+}
+
+interface MyEventListener extends EventListener {
+    void actionPerformed(MouseEvent event);
 }

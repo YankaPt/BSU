@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yan/BSU/Sem5/Numerical analysis/Lab3/main.cpp
+stdio.h
+-
+math.h
+-
+stdlib.h
+-
+

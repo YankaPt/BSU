@@ -14,7 +14,9 @@ public class HyphenationTestDrive {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        StringBuilder data = new StringBuilder();
+        WordPair pair = checker.checkWordHyphen("piatkevich");
+        System.out.println(pair.replaceWord);
+        /*StringBuilder data = new StringBuilder();
         try {
             FileReader fileReader = new FileReader("test.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -37,6 +39,6 @@ public class HyphenationTestDrive {
         for (WordPair pair : list) {
             text = text.replaceAll(pair.initialWord, pair.replaceWord);
         }
-        System.out.println(text);
+        System.out.println(text);*/
     }
 }

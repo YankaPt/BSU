@@ -1,6 +1,7 @@
 package sample.model;
 
 import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,9 +12,21 @@ public class Lab2Console {
     private static final int NUMBER_OF_QUALITIES_FOR_EACH = 4;
     public static void main(String[] args) {
         List<Person> people = new ArrayList<>();
-        /*for (int i = 0; i < 10; i++) {
-            people.add(generatePerson());
-        }*/
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql", "root", "root");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from persons");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Person person1 = new Person();
+            resultSet.next();
+            person1.setName(resultSet.getString("name"));
+            person1.getQualities().add(resultSet.getString("traits"));
+            person1.getDemands().add(resultSet.getString("demands"));
+            people.add(person1);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("data.ser"));
             while (true) {

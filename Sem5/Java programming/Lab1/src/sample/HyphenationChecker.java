@@ -24,16 +24,26 @@ public class HyphenationChecker {
         WordPair wordPair = new WordPair(clearWord, word);
         if (replacesList.contains(wordPair)) {
             String[] initialHyphens = word.split("-");
-            String[] replaceHyphens = wordPair.replaceWord.split("-");
-            if (word.equals("piatkev-ich")) {
-                replaceHyphens[0] = replaceHyphens[0].concat("-");
-                wordPair.replaceWord = Arrays.stream(replaceHyphens).reduce("", (s1, s2) -> s1 + s2);
+            String[] replaceHyphens = replacesList.get(replacesList.indexOf(wordPair)).replaceWord.split("-");
+            if (replaceHyphens.length > 2) {
+                String test = word.replaceFirst(replaceHyphens[0], "");
+                for (int i = 1; i < replaceHyphens.length; i++) {
+                    test = test.replaceFirst(replaceHyphens[i], "");
+                }
+                test = test.replaceAll("-", "");
+                if (test.length() > 0) {
+                    replaceHyphens[0] = replaceHyphens[0].concat("-");
+                    wordPair.replaceWord = Arrays.stream(replaceHyphens).reduce("", (s1, s2) -> s1 + s2);
+                    wordPair.initialWord = word;
+                    return wordPair;
+                } else {
+                    wordPair.replaceWord = word;
+                    wordPair.initialWord = word;
+                }
+            } else {
+                wordPair.replaceWord = replacesList.get(replacesList.indexOf(wordPair)).replaceWord;
                 wordPair.initialWord = word;
-                return wordPair;
             }
-
-            wordPair.replaceWord = replacesList.get(replacesList.indexOf(wordPair)).replaceWord;
-            wordPair.initialWord = word;
         }
         return wordPair;
     }

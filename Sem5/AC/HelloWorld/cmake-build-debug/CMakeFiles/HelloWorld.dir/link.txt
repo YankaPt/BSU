@@ -1,0 +1,1 @@
+mpicxx  -g   CMakeFiles/HelloWorld.dir/main.cpp.o  -o HelloWorld 

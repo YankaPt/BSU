@@ -78,6 +78,7 @@ public class Controller {
                     .collect(Collectors.toList());
             idealList.getItems().setAll(idealPersons);
             idealList.refresh();
+            System.out.println(idealPersons.size());
         } catch (SQLException e) {
         }
     }

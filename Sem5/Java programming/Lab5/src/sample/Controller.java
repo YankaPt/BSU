@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Controller {
     @FXML
@@ -30,31 +31,45 @@ public class Controller {
     private String login;
 
     @FXML
-    private void connectToServer() throws IOException {
-        if (socket != null) {
-            inputStream.close();
-            outputStream.close();
-            socket.close();
-        }
-        socket = new Socket("localhost", 6066);
-        inputStream = new DataInputStream(socket.getInputStream());
-        outputStream = new DataOutputStream(socket.getOutputStream());
-        login = loginField.getText();
-        outputStream.writeUTF(login);
-        outputStream.writeUTF(passwordField.getText());
-        if (inputStream.readUTF().equals("authentication error")) {
-            chatArea.setText("Connection failed");
-        } else {
-            sendButton.setDisable(false);
-            inputListener = new InputListener(inputStream, chatArea);
-            inputListener.start();
+    private void connectToServer() {
+        try {
+            if (socket != null) {
+                inputStream.close();
+                outputStream.close();
+                socket.close();
+            }
+            socket = new Socket("localhost", 6066);
+            inputStream = new DataInputStream(socket.getInputStream());
+            outputStream = new DataOutputStream(socket.getOutputStream());
+            login = loginField.getText();
+            outputStream.writeUTF(login);
+            outputStream.writeUTF(passwordField.getText());
+            String line = inputStream.readUTF();
+            if (line.equals("authentication error")) {
+                chatArea.setText("Connection failed");
+            } else {
+                sendButton.setDisable(false);
+                connectButton.setText("reconnect to server");
+                chatArea.setText(line);
+                inputListener = new InputListener(inputStream, chatArea);
+                inputListener.start();
+            }
+        } catch (SocketException ex) {
+            chatArea.setText("Server is fall");
+            sendButton.setDisable(true);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void sendMessage() throws IOException {
-        outputStream.writeUTF(messageField.getText());
-        messageField.clear();
+    private void sendMessage() {
+        try {
+            outputStream.writeUTF(messageField.getText());
+            messageField.clear();
+        } catch (IOException e) {
+            chatArea.setText("Server is fall");
+        }
     }
 
     private static class InputListener extends Thread {
@@ -76,7 +91,6 @@ public class Controller {
                 }
                 System.out.println("It is over");
             } catch (IOException ex) {
-                ex.printStackTrace();
             }
         }
     }

@@ -1,0 +1,1 @@
+mpicxx  -g   CMakeFiles/Lab4.dir/main.cpp.o  -o Lab4 

@@ -11,8 +11,8 @@ public class PeopleResultSetExtractor {
         while (resultSet.next()) {
             long id = resultSet.getLong("personId");
             Person person;
-            if (people.contains(new Person(id))) {
-                person = people.get(people.indexOf(new Person(id)));
+            if (people.stream().anyMatch(p -> id == p.getId())) {
+                person = people.stream().filter(p -> id == p.getId()).findAny().get();
             } else {
                 person = initializePersonAndGet(resultSet, id, people);
             }

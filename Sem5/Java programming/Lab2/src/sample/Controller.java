@@ -6,17 +6,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import sample.model.Person;
 import sample.model.RelationsBuilder;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.sql.*;
+import java.util.*;
 
 public class Controller {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/mysql";
+    private static final String LOGIN = "root";
+    private static final String PASSWORD = "root";
+    private static final String SQL_INSERT_PERSON = "insert into persons (name, traits, demands) values (?, ?, ?)";
+    private static final String SQL_SELECT_PERSONS = "select * from persons";
+    private static final String SQL_CLEAR_DB = "delete from persons";
     @FXML
     private Pane rootPane;
     @FXML
@@ -36,44 +39,29 @@ public class Controller {
     @FXML
     private MenuItem saveMenuItem;
 
-    private FileChooser fileChooser = new FileChooser();
     private List<Person> personList = new ArrayList<>();
     private Person currentPerson;
 
     @FXML
     private void openFile() {
-        File file = fileChooser.showOpenDialog(rootPane.getScene().getWindow());
-        if (file != null) {
-            try {
-                personList.clear();
-                ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
-                while (true) {
-                    personList.add((Person) objectInputStream.readObject());
-                }
-            } catch (IOException ex) {
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-            refreshLists();
-            saveMenuItem.setDisable(false);
-        }
+        personList.clear();
+        personList.addAll(getPersonsFromDB());
+        refreshLists();
+        saveMenuItem.setDisable(false);
     }
 
     @FXML
     private void saveFile() {
-        File file = fileChooser.showSaveDialog(rootPane.getScene().getWindow());
-        if (file != null) {
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                for (Person person : personList) {
-                    objectOutputStream.writeObject(person);
-                }
-                objectOutputStream.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        try(Connection connection = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD)) {
+            PreparedStatement clearStatement = connection.prepareStatement(SQL_CLEAR_DB);
+            clearStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        for (Person person : personList) {
+            savePerson(person);
+        }
+
     }
 
     @FXML
@@ -153,5 +141,55 @@ public class Controller {
             clonedList.add(new Person(person));
         }
         return clonedList;
+    }
+
+    private void savePerson(Person person) {
+        try(Connection connection = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PERSON);
+            preparedStatement.clearParameters();
+            preparedStatement.setString(1, person.getName());
+            preparedStatement.setString(2, traitsToString(person.getQualities()));
+            preparedStatement.setString(3, traitsToString(person.getDemands()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private String traitsToString(Set<String> traits) {
+        StringBuilder builder = new StringBuilder();
+        for (String trait: traits) {
+            builder.append(trait);
+            builder.append(" ");
+        }
+        return builder.toString();
+    }
+
+    private List<Person> getPersonsFromDB() {
+        List<Person> people = new ArrayList<>();
+        try(Connection connection = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_PERSONS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                people.add(mapPerson(resultSet));
+            }
+
+        } catch (
+                SQLException ex) {
+            ex.printStackTrace();
+        }
+        return people;
+    }
+
+    private Person mapPerson(ResultSet resultSet) throws SQLException {
+        Person person = new Person();
+        person.setName(resultSet.getString("name"));
+        person.setQualities(parseTraits(resultSet.getString("traits")));
+        person.setDemands(parseTraits(resultSet.getString("demands")));
+        return person;
+    }
+
+    private Set<String> parseTraits(String traitString) {
+        return Set.of(traitString.split(" "));
     }
 }

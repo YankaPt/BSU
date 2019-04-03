@@ -1,0 +1,7 @@
+/home/yan/Programs/clion-2018.2.3/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/yan/BSU/Sem5/AC/Lab3
+-- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpich.so (found version "3.1") 
+-- Found MPI_CXX: /usr/lib/x86_64-linux-gnu/libmpichcxx.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/yan/BSU/Sem5/AC/Lab3/cmake-build-debug

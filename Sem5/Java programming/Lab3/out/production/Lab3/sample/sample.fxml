@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <left>
+      <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Label fx:id="label" minWidth="100.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TextField fx:id="textField" layoutX="41.0" layoutY="96.0" />
+                  <TextField fx:id="argsField" disable="true" layoutX="41.0" layoutY="220.0" />
+                  <Label fx:id="classLabel" layoutX="41.0" layoutY="73.0" text="Label" />
+                  <Label fx:id="argsLabel" layoutX="41.0" layoutY="197.0" text="Label" />
+                  <Label fx:id="dateLabel" layoutX="41.0" layoutY="259.0" text="Label" />
+                  <Label fx:id="currencyLabel" layoutX="41.0" layoutY="277.0" text="Label" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+   <bottom>
+      <FlowPane alignment="CENTER" maxHeight="50.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="button" mnemonicParsing="false" onAction="#getMethods" text="Button" />
+            <Button fx:id="invokeButton" disable="true" mnemonicParsing="false" onAction="#invokeMethod" text="Button" />
+         </children>
+      </FlowPane>
+   </bottom>
+   <top>
+      <FlowPane alignment="CENTER" maxHeight="50.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton fx:id="enButton" mnemonicParsing="false" onAction="#setBundle" selected="true" text="language">
+               <toggleGroup>
+                  <ToggleGroup fx:id="language" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="byButton" mnemonicParsing="false" onAction="#setBundle" text="Мова" toggleGroup="$language" />
+         </children>
+      </FlowPane>
+   </top>
+</BorderPane>
