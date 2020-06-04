@@ -1,0 +1,9 @@
+bsu/jp/dao/StudentDAO.class
+bsu/jp/model/Deal.class
+bsu/jp/dao/DealDAO.class
+bsu/jp/web/GodServlet.class
+bsu/jp/web/tagProcessors/InnerTag.class
+bsu/jp/web/tagProcessors/OuterTag.class
+bsu/jp/model/CV.class
+bsu/jp/model/Student.class
+bsu/jp/web/SessionLocaleFilter.class
